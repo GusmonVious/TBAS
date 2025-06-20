@@ -93,47 +93,59 @@ function switchOff(loadingId) {
   loadingDiv.classList.add('fa-solid', 'fa-check');
 }
 
+timeSync1.addEventListener('click', () => syncTime(0, 1));
+timeSync2.addEventListener('click', () => syncTime(1, 0));
 
-timeSync1.addEventListener('click', () => {
-  const changedHoursBox = document.getElementById(inputs[0].hoursBox);
-  const changedMinutesBox = document.getElementById(inputs[0].minutesBox);
+function syncTime(fromIndex, toIndex) {
+  const from = inputs[fromIndex];
+  const to = inputs[toIndex];
 
-  const originalHour = inputs[0].currentHours;
-  const originalMinute = inputs[0].currentMinutes;
+  const changedHour = parseInt(document.getElementById(from.hoursBox).value);
+  const changedMinute = parseInt(document.getElementById(from.minutesBox).value);
 
-  const newHour = parseInt(changedHoursBox.value);
-  const newMinute = parseInt(changedMinutesBox.value);
+  const oldHour = from.currentHours;
+  const oldMinute = from.currentMinutes;
 
-  if (isNaN(newHour) || isNaN(newMinute)) {
-    alert("Invalid time entered.");
+  if (isNaN(changedHour) || isNaN(changedMinute)) {
+    alert("Invalid time input.");
     return;
   }
 
-  // Create a Date object for time zone 1
-  const now = new Date();
-  const fromTime = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), newHour, newMinute));
-
-  // Format in the second time zone (tzInput2)
-  const fromTz = document.getElementById(inputs[0].inputId).value;
-  const toTz = document.getElementById(inputs[1].inputId).value;
-
-  if (!fromTz || !toTz || !timeZones.includes(fromTz) || !timeZones.includes(toTz)) {
-    alert("Both time zones must be valid.");
+  // Prevent syncing if no change
+  if (changedHour === oldHour && changedMinute === oldMinute) {
+    alert("No time change detected.");
     return;
   }
 
-  const options = { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: toTz };
-  const formatter = new Intl.DateTimeFormat([], options);
-  const parts = formatter.formatToParts(fromTime);
+  // Compute delta
+  const originalTotal = oldHour * 60 + oldMinute;
+  const newTotal = changedHour * 60 + changedMinute;
+  const deltaMinutes = newTotal - originalTotal;
 
-  const targetHour = parseInt(parts.find(p => p.type === "hour").value);
-  const targetMinute = parseInt(parts.find(p => p.type === "minute").value);
+  const toHour = to.currentHours;
+  const toMinute = to.currentMinutes;
 
-  // Update second time box
-  document.getElementById(inputs[1].hoursBox).value = targetHour;
-  document.getElementById(inputs[1].minutesBox).value = targetMinute;
+  if (toHour === '' || toMinute === '') {
+    alert("Please fetch both time zones before syncing.");
+    return;
+  }
 
-  // Optionally update `currentHours` and `currentMinutes` in inputs[1]
-  inputs[1].currentHours = targetHour;
-  inputs[1].currentMinutes = targetMinute;
-});
+  // Apply delta
+  let totalTarget = toHour * 60 + toMinute + deltaMinutes;
+
+  // Normalize time (wrap around 0–1439 minutes)
+  totalTarget = ((totalTarget % 1440) + 1440) % 1440;
+
+  const updatedHour = Math.floor(totalTarget / 60);
+  const updatedMinute = totalTarget % 60;
+
+  // Set new values
+  document.getElementById(to.hoursBox).value = updatedHour;
+  document.getElementById(to.minutesBox).value = updatedMinute;
+
+  // Reset reference values
+  from.currentHours = changedHour;
+  from.currentMinutes = changedMinute;
+  to.currentHours = updatedHour;
+  to.currentMinutes = updatedMinute;
+}

@@ -1,8 +1,10 @@
 const timeZones = Intl.supportedValuesOf('timeZone');
+const timeSync1 = document.getElementById('timeSync1');
+const timeSync2 = document.getElementById('timeSync2');
 
 const inputs = [
-  { inputId: 'tzInput1', listId: 'timeZonesList1', hoursBox: 'hoursBox1', minutesBox: 'minutesBox1', loadingId: 'loadingId1' },
-  { inputId: 'tzInput2', listId: 'timeZonesList2', hoursBox: 'hoursBox2', minutesBox: 'minutesBox2', loadingId: 'loadingId2' }
+  { inputId: 'tzInput1', listId: 'timeZonesList1', hoursBox: 'hoursBox1', minutesBox: 'minutesBox1', loadingId: 'loadingId1', currentHours: '' },
+  { inputId: 'tzInput2', listId: 'timeZonesList2', hoursBox: 'hoursBox2', minutesBox: 'minutesBox2', loadingId: 'loadingId2', currentMinutes: '' }
 ];
 
 function setupAutocomplete(inputId, hoursId, minutesId) {
@@ -41,8 +43,12 @@ async function fetchAndSetTime(selectedZone, entry) {
 
     document.getElementById(entry.hoursBox).value = parseInt(hours);
     document.getElementById(entry.minutesBox).value = parseInt(minutes);
+
+    entry.currentHours = parseInt(hours);
+    entry.currentMinutes = parseInt(minutes);
     
     switchOff(entry.loadingId);
+
 
   } catch (err) {
     console.error("Failed to fetch time:", err);
@@ -86,3 +92,48 @@ function switchOff(loadingId) {
   loadingDiv.className = "";
   loadingDiv.classList.add('fa-solid', 'fa-check');
 }
+
+
+timeSync1.addEventListener('click', () => {
+  const changedHoursBox = document.getElementById(inputs[0].hoursBox);
+  const changedMinutesBox = document.getElementById(inputs[0].minutesBox);
+
+  const originalHour = inputs[0].currentHours;
+  const originalMinute = inputs[0].currentMinutes;
+
+  const newHour = parseInt(changedHoursBox.value);
+  const newMinute = parseInt(changedMinutesBox.value);
+
+  if (isNaN(newHour) || isNaN(newMinute)) {
+    alert("Invalid time entered.");
+    return;
+  }
+
+  // Create a Date object for time zone 1
+  const now = new Date();
+  const fromTime = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), newHour, newMinute));
+
+  // Format in the second time zone (tzInput2)
+  const fromTz = document.getElementById(inputs[0].inputId).value;
+  const toTz = document.getElementById(inputs[1].inputId).value;
+
+  if (!fromTz || !toTz || !timeZones.includes(fromTz) || !timeZones.includes(toTz)) {
+    alert("Both time zones must be valid.");
+    return;
+  }
+
+  const options = { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: toTz };
+  const formatter = new Intl.DateTimeFormat([], options);
+  const parts = formatter.formatToParts(fromTime);
+
+  const targetHour = parseInt(parts.find(p => p.type === "hour").value);
+  const targetMinute = parseInt(parts.find(p => p.type === "minute").value);
+
+  // Update second time box
+  document.getElementById(inputs[1].hoursBox).value = targetHour;
+  document.getElementById(inputs[1].minutesBox).value = targetMinute;
+
+  // Optionally update `currentHours` and `currentMinutes` in inputs[1]
+  inputs[1].currentHours = targetHour;
+  inputs[1].currentMinutes = targetMinute;
+});

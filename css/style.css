@@ -1,0 +1,203 @@
+@import 'animation.css';
+/* @import 'variables.css'; */
+
+:root {
+    /* Primary */
+    --bg-white: #dfe8e8;
+    --text-dark: #111827;
+
+    /* Accents */
+    --accent-navy: #2d3a4c;
+    --accent-yellow: #f6e145;
+
+    /* Gradient Colors */
+    --gradient-start: #261C50;
+    --gradient-mid: #2C3E50;
+    --gradient-end: #0E4E60;
+
+    /* Text Gradient */
+    --text-gradient-start: #FFFFFF;
+    --text-gradient-end: #E0E0E0;
+
+    /* Extra Accents */
+    --accent-grey: #aebcc0;
+    --accent-dark-grey: #626c74;
+
+    /* Spacing system (8px increments) */
+    --space-1: 0.5rem;   /* 8px */
+    --space-2: 1rem;     /* 16px */
+    --space-3: 1.5rem;   /* 24px */
+    --space-4: 2rem;     /* 32px */
+    --space-5: 2.5rem;   /* 40px */
+    --space-6: 3rem;     /* 48px */
+    --space-8: 4rem;     /* 64px */
+    --space-10: 5rem;    /* 80px */
+    --space-12: 6rem;    /* 96px */
+    --space-16: 8rem;    /* 128px */
+    --space-20: 10rem;   /* 160px */
+    --space-24: 12rem;   /* 192px */
+
+    /* Typography */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --font-size-xs: 0.75rem;   /* 12px */
+    --font-size-sm: 0.875rem;  /* 14px */
+    --font-size-base: 1rem;    /* 16px */
+    --font-size-lg: 1.125rem;  /* 18px */
+    --font-size-xl: 1.25rem;   /* 20px */
+    --font-size-2xl: 1.5rem;   /* 24px */
+    --font-size-3xl: 1.875rem; /* 30px */
+    --font-size-4xl: 2.25rem;  /* 36px */
+    --font-size-5xl: 3rem;     /* 48px */
+    --font-size-6xl: 3.75rem;  /* 60px */
+
+    /* Font weights */
+    --font-light: 300;
+    --font-normal: 400;
+    --font-semibold: 600;
+
+    /* Border radius */
+    --radius-sm: 0.25rem;  /* 4px */
+    --radius-md: 0.5rem;   /* 8px */
+    --radius-lg: 1rem;     /* 16px */
+    --radius-full: 9999px;
+
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Base Styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+/* Body and Background */
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-white);
+    line-height: 1.5;
+    color: var(--text-dark);
+    overflow-x: hidden;
+}
+
+.gradient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+  background-size: 400% 400%;
+  animation: gradientFlow 15s ease infinite;
+  z-index: -1;
+  opacity: 0.9;
+}
+
+/* TImezone Coverter */
+
+.countryContainer {
+    width: 100%;
+    height: 70vh;
+    padding: var(--space-24) var(--space-8);
+    text-align: center;
+    display: flex;
+    gap: var(--space-8);
+    justify-content: center;
+    align-content: center;
+    /* flex-wrap: wrap; */
+}
+
+@media (max-width: 768px) {
+    .countryContainer {
+        margin-top: var(--space-10);
+        gap: var(--space-3);
+        flex-wrap: wrap;
+    }
+}
+
+/* Specific Time Zone */
+
+.container {
+    padding: var(--space-12) var(--space-5);
+    box-shadow: var(--shadow-lg);
+    background-color: var(--bg-white);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-content: center;
+    justify-content: center;
+    background: linear-gradient(to right, var(--text-gradient-start), var(--text-gradient-end));
+    /* height: var(--space-10); */
+    border-radius: var(--radius-md);
+}
+
+input {
+    text-align: center;
+    margin: 0px 45px;
+}
+
+input[type=number] {
+    width: var(--space-4);
+    box-sizing: content-box;
+    /* background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent); */
+}
+
+#tzInput1, #tzInput2 {
+    width: var(--space-18);
+    height: var(--space-4);
+    margin: 0px 45px;
+}
+
+/* Webkit (Chrome, Safari, newer versions of Opera) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; 
+}
+
+.timeDisplayBox {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-semibold);
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: var(--space-2);
+}
+
+/* Alignment & Design for Select & Loading */
+
+#loadingId1, #loadingId2 {
+    margin-top: 5px;
+    align-self: flex-end;
+    margin: 0px;
+    padding: 0px;
+}
+
+.spinner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.fa-check {
+    position: absolute;
+    color: var(--accent-navy);
+}

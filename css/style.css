@@ -143,6 +143,7 @@ body {
     background: linear-gradient(to right, var(--text-gradient-start), var(--text-gradient-end));
     /* height: var(--space-10); */
     border-radius: var(--radius-md);
+    box-shadow: 0px 0px 5px 1px var(--bg-white);
 }
 
 input {
@@ -200,4 +201,70 @@ input[type=number]::-webkit-outer-spin-button {
 .fa-check {
     position: absolute;
     color: var(--accent-navy);
+}
+
+.wrapper {
+    position: relative;
+    width: fit-content; /* or 100% if preferred */
+    margin: 0 auto; /* center horizontally */
+}
+
+.sideBox {
+    position: absolute;
+    top: 53%;
+    transform: translateY(-50%);
+    right: -160px; /* adjust based on your spacing */
+    width: 150px;
+    height: 60px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+@media(max-width: 768px){
+
+    .sideBox {
+        position: static;
+        margin-top: var(--space-4);
+        transform: none;
+        display: block; /* Make sure it's still shown */
+        align-self: flex-end;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+#timeSync1, #timeSync2 {
+    padding: 6px var(--space-2);
+    border-radius: 17px;
+    border: 0px;
+    color: var(--accent-navy);
+    margin: 7px;
+}
+
+#timeSync1 {
+    background: linear-gradient(90deg, var(--bg-white), var(--bg-white), var(--accent-yellow));
+    animation: gradientFlow 15s ease infinite;
+    box-shadow: 0px 0px 5px var(--accent-yellow);
+}
+
+#timeSync2 {
+    background: linear-gradient(270deg, var(--bg-white), var(--bg-white), var(--accent-yellow));
+    animation: gradientFlow 15s ease infinite;
+    box-shadow: 0px 0px 5px var(--accent-yellow);
+}
+
+#reset {
+    position: absolute;
+    top: 3%;
+    right: -160px; 
+    width: 80px;
+    height: 30px;
+    border-radius: 20px;
+    z-index: 11;
+    color: var(--accent-navy);
+    border: 0px;
 }

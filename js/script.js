@@ -1,6 +1,7 @@
 const timeZones = Intl.supportedValuesOf('timeZone');
 const timeSync1 = document.getElementById('timeSync1');
 const timeSync2 = document.getElementById('timeSync2');
+const reset = document.getElementById('reset');
 
 const inputs = [
   { inputId: 'tzInput1', listId: 'timeZonesList1', hoursBox: 'hoursBox1', minutesBox: 'minutesBox1', loadingId: 'loadingId1', currentHours: '' },
@@ -149,3 +150,7 @@ function syncTime(fromIndex, toIndex) {
   to.currentHours = updatedHour;
   to.currentMinutes = updatedMinute;
 }
+
+reset.addEventListener('click', () => {
+  
+})

@@ -267,4 +267,6 @@ input[type=number]::-webkit-outer-spin-button {
     z-index: 11;
     color: var(--accent-navy);
     border: 0px;
+    cursor: pointer;
+    background-color: var(--bg-white);
 }

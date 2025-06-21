@@ -4,8 +4,8 @@ const timeSync2 = document.getElementById('timeSync2');
 const reset = document.getElementById('reset');
 
 const inputs = [
-  { inputId: 'tzInput1', listId: 'timeZonesList1', hoursBox: 'hoursBox1', minutesBox: 'minutesBox1', loadingId: 'loadingId1', currentHours: '' },
-  { inputId: 'tzInput2', listId: 'timeZonesList2', hoursBox: 'hoursBox2', minutesBox: 'minutesBox2', loadingId: 'loadingId2', currentMinutes: '' }
+  { inputId: 'tzInput1', listId: 'timeZonesList1', hoursBox: 'hoursBox1', minutesBox: 'minutesBox1', loadingId: 'loadingId1', selectedZone: '' },
+  { inputId: 'tzInput2', listId: 'timeZonesList2', hoursBox: 'hoursBox2', minutesBox: 'minutesBox2', loadingId: 'loadingId2', selectedZone: '' }
 ];
 
 function setupAutocomplete(inputId, hoursId, minutesId) {
@@ -41,6 +41,8 @@ async function fetchAndSetTime(selectedZone, entry) {
     const res = await fetch(`https://timeapi.io/api/time/current/zone?timeZone=${encodeURIComponent(selectedZone)}`);
     const data = await res.json();
     const [hours, minutes] = data.time.split(':');
+
+    entry.selectedZone = selectedZone;
 
     document.getElementById(entry.hoursBox).value = parseInt(hours);
     document.getElementById(entry.minutesBox).value = parseInt(minutes);
@@ -152,5 +154,40 @@ function syncTime(fromIndex, toIndex) {
 }
 
 reset.addEventListener('click', () => {
-  
+  try {
+    let success = false;
+
+    if(document.getElementById(inputs[0].inputId).value !== ''){
+      switchOn(inputs[0].loadingId);
+      fetchAndSetTime(inputs[0].selectedZone, inputs[0]);
+      console.log('Resetted left Time-Zone successfully')
+      success = true;
+    }
+    if(document.getElementById(inputs[1].inputId).value !== ''){
+      switchOn(inputs[1].loadingId);
+      fetchAndSetTime(inputs[1].selectedZone, inputs[1]);
+      console.log('Resetted right Time-Zone successfully')
+      success = true;
+    }
+
+    if(success){
+      reset.style.backgroundColor = '#9fe2bf'; // Green
+      setTimeout(() => {
+        reset.style.backgroundColor = '#dfe8e8'; // Resets to Default
+        console.log('Reset Successfully')
+      }, 3000)
+    } else {
+        reset.style.backgroundColor = '#ff6961'; // Red
+        setTimeout(() => {
+        reset.style.backgroundColor = '#dfe8e8'; // Default
+        console.warn('Reset failed: Both inputs are empty')
+      }, 3000)
+    }
+
+  }
+  catch(error){
+    console.error('Reset failed due to error:', error);
+    reset.style.backgroundColor = '#ff6961'; // red
+  }
+
 })

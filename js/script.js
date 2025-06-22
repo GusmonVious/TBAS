@@ -191,3 +191,31 @@ reset.addEventListener('click', () => {
   }
 
 })
+
+document.getElementById('setButton').addEventListener('click', () => {
+  try {
+
+    const entryZone1 = document.getElementById('tzInput1').value;
+    const entryHours1 = parseInt(document.getElementById(inputs[0].hoursBox).value);
+    const entryMinutes1 = parseInt(document.getElementById(inputs[0].minutesBox).value);
+
+    const entryZone2 = document.getElementById('tzInput2').value;
+    const entryHours2 = parseInt(document.getElementById(inputs[1].hoursBox).value);
+    const entryMinutes2 = parseInt(document.getElementById(inputs[1].minutesBox).value);
+
+    const span1 = `${entryZone1} ${entryHours1}:${entryHours2}`;
+    const span2 = `${entryZone2} ${entryHours2}:${entryHours2}`;
+
+    toDoBox = document.createElement('div');
+    toDoBox.classList.add('appointmentBox');
+
+    toDoBox.innerHTML = `<p>Appointment set at <span class='time1'>${span1},</span> <span class='time2'>${span2}</span></p>`;
+
+    document.getElementById('toDo').append(toDoBox);
+    
+  }
+  catch(error){
+    console.error('Failed to set appointment:', error);
+  }
+
+})	

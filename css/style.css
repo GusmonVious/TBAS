@@ -119,6 +119,7 @@ body {
     justify-content: center;
     align-content: center;
     /* flex-wrap: wrap; */
+    margin-bottom: var(--space-8);
 }
 
 @media (max-width: 768px) {
@@ -126,6 +127,11 @@ body {
         margin-top: var(--space-10);
         gap: var(--space-3);
         flex-wrap: wrap;
+        margin-bottom: 0px;
+    }
+
+    .sideBox {
+        margin-bottom: var(--space-12);
     }
 }
 
@@ -220,23 +226,6 @@ input[type=number]::-webkit-outer-spin-button {
     z-index: 10;
 }
 
-@media(max-width: 768px){
-
-    .sideBox {
-        position: static;
-        margin-top: var(--space-4);
-        transform: none;
-        display: block; /* Make sure it's still shown */
-        align-self: flex-end;
-    }
-
-    .wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
 #timeSync1, #timeSync2 {
     padding: 6px var(--space-2);
     border-radius: 17px;
@@ -269,4 +258,73 @@ input[type=number]::-webkit-outer-spin-button {
     border: 0px;
     cursor: pointer;
     background-color: var(--bg-white);
+}
+
+/* Appointment Setting Container */
+
+#toDoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#setButton {
+    margin-bottom: var(--space-3);
+    border-radius: 30px;
+    padding: var(--space-2) var(--space-4);
+    font-weight: 500;
+    cursor: pointer;
+    background-color: var(--bg-white);
+    transition: transform ease-in-out 0.25s, box-shadow 0.4s ease;
+    will-change: transform;
+    text-align: center;
+}
+
+#setButton:hover {
+    background-color: var(#FFFFFF);
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.appointmentBox {
+    background-color: var(--accent-navy);
+    box-sizing: border-box;
+    width: 550px;
+    border-radius: 10px;
+    color: var(--bg-white);
+    padding: var(--space-2) var(--space-2);
+    text-align: center;
+}
+
+#toDo {
+    font-size: var(--font-size-base);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.time1, .time2 {
+    font-weight: 700px;
+}
+
+@media(max-width: 768px){
+
+    .sideBox {
+        position: static;
+        margin-top: var(--space-4);
+        transform: none;
+        display: block; /* Make sure it's still shown */
+        align-self: flex-end;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #toDo {
+        width: 500px;
+    }
 }

@@ -1,6 +1,3 @@
-@import 'animation.css';
-/* @import 'variables.css'; */
-
 :root {
     /* Primary */
     --bg-white: #dfe8e8;
@@ -34,6 +31,7 @@
     --space-10: 5rem;    /* 80px */
     --space-12: 6rem;    /* 96px */
     --space-16: 8rem;    /* 128px */
+    --space-18: 9rem;    /* 144px */
     --space-20: 10rem;   /* 160px */
     --space-24: 12rem;   /* 192px */
 
@@ -85,7 +83,6 @@ html {
 }
 
 /* Body and Background */
-
 body {
     font-family: var(--font-family);
     background-color: var(--bg-white);
@@ -95,20 +92,157 @@ body {
 }
 
 .gradient-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
-  background-size: 400% 400%;
-  animation: gradientFlow 15s ease infinite;
-  z-index: -1;
-  opacity: 0.9;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+    background-size: 400% 400%;
+    animation: gradientFlow 15s ease infinite;
+    z-index: -1;
+    opacity: 0.9;
 }
 
-/* TImezone Coverter */
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
+/* Hamburger Menu Styles */
+.hamburger-btn {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    z-index: 1000;
+    background: var(--bg-white);
+    border: none;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: var(--font-size-lg);
+    color: var(--accent-navy);
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+}
+
+.hamburger-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+}
+
+.menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sidebar-menu {
+    position: fixed;
+    top: 0;
+    left: -350px;
+    width: 350px;
+    height: 100%;
+    background: var(--bg-white);
+    z-index: 999;
+    transition: left var(--transition-normal);
+    box-shadow: var(--shadow-lg);
+    overflow-y: auto;
+}
+
+.sidebar-menu.active {
+    left: 0;
+}
+
+.sidebar-header {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--accent-grey);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, var(--accent-navy), var(--accent-dark-grey));
+    color: white;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: var(--font-size-2xl);
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition-fast);
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-content {
+    padding: var(--space-3);
+}
+
+.appointment-item {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    margin-bottom: var(--space-2);
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--accent-yellow);
+    transition: all var(--transition-fast);
+}
+
+.appointment-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+}
+
+.appointment-time {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: var(--space-1);
+}
+
+.timezone-1, .timezone-2 {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    color: var(--accent-navy);
+}
+
+.appointment-date {
+    font-size: var(--font-size-xs);
+    color: var(--accent-dark-grey);
+    margin-bottom: 0.25rem;
+}
+
+.appointment-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    color: var(--text-dark);
+}
+
+/* Timezone Converter */
 .countryContainer {
     width: 100%;
     height: 70vh;
@@ -118,7 +252,6 @@ body {
     gap: var(--space-8);
     justify-content: center;
     align-content: center;
-    /* flex-wrap: wrap; */
     margin-bottom: var(--space-8);
 }
 
@@ -128,15 +261,26 @@ body {
         gap: var(--space-3);
         flex-wrap: wrap;
         margin-bottom: 0px;
+        padding: var(--space-12) var(--space-4);
     }
 
     .sideBox {
         margin-bottom: var(--space-12);
     }
+
+    .hamburger-btn {
+        top: 1rem;
+        left: 1rem;
+        padding: 0.75rem;
+    }
+
+    .sidebar-menu {
+        width: 300px;
+        left: -300px;
+    }
 }
 
 /* Specific Time Zone */
-
 .container {
     padding: var(--space-12) var(--space-5);
     box-shadow: var(--shadow-lg);
@@ -147,33 +291,54 @@ body {
     align-content: center;
     justify-content: center;
     background: linear-gradient(to right, var(--text-gradient-start), var(--text-gradient-end));
-    /* height: var(--space-10); */
     border-radius: var(--radius-md);
     box-shadow: 0px 0px 5px 1px var(--bg-white);
+    transition: all var(--transition-normal);
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 20px 3px rgba(223, 232, 232, 0.3);
 }
 
 input {
     text-align: center;
     margin: 0px 45px;
+    border: 1px solid var(--accent-grey);
+    border-radius: var(--radius-sm);
+    padding: var(--space-1);
+    font-family: var(--font-family);
+    transition: all var(--transition-fast);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent-yellow);
+    box-shadow: 0 0 0 2px rgba(246, 225, 69, 0.2);
 }
 
 input[type=number] {
     width: var(--space-4);
     box-sizing: content-box;
-    /* background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent); */
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-dark);
+    font-weight: var(--font-semibold);
 }
 
 #tzInput1, #tzInput2 {
     width: var(--space-18);
     height: var(--space-4);
     margin: 0px 45px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-dark);
+    font-weight: var(--font-normal);
 }
 
 /* Webkit (Chrome, Safari, newer versions of Opera) */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0; 
+    -webkit-appearance: none;
+    margin: 0; 
 }
 
 .timeDisplayBox {
@@ -183,10 +348,15 @@ input[type=number]::-webkit-outer-spin-button {
     justify-content: center;
     gap: 5px;
     margin-top: var(--space-2);
+    color: var(--text-dark);
 }
 
-/* Alignment & Design for Select & Loading */
+.timeDisplayBox span {
+    color: var(--accent-navy);
+    font-size: var(--font-size-2xl);
+}
 
+/* Status Indicators */
 #loadingId1, #loadingId2 {
     margin-top: 5px;
     align-self: flex-end;
@@ -195,31 +365,36 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .spinner {
-    position: absolute;
     width: 20px;
     height: 20px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--accent-yellow);
     border-radius: 50%;
     animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .fa-check {
     position: absolute;
     color: var(--accent-navy);
+    font-size: var(--font-size-lg);
 }
 
 .wrapper {
     position: relative;
-    width: fit-content; /* or 100% if preferred */
-    margin: 0 auto; /* center horizontally */
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .sideBox {
     position: absolute;
     top: 53%;
     transform: translateY(-50%);
-    right: -160px; /* adjust based on your spacing */
+    right: -160px;
     width: 150px;
     height: 60px;
     border-radius: 5px;
@@ -232,6 +407,15 @@ input[type=number]::-webkit-outer-spin-button {
     border: 0px;
     color: var(--accent-navy);
     margin: 7px;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-weight: var(--font-semibold);
+    transition: all var(--transition-normal);
+}
+
+#timeSync1:hover, #timeSync2:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(246, 225, 69, 0.4);
 }
 
 #timeSync1 {
@@ -260,29 +444,37 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: var(--bg-white);
 }
 
-/* Appointment Setting Container */
+#reset:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-md);
+}
 
-#toDoContainer {
+/* Appointment Setting Container */
+/* #toDoContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
+} */
 
 #setButton {
     margin-bottom: var(--space-3);
     border-radius: 30px;
     padding: var(--space-2) var(--space-4);
-    font-weight: 500;
+    font-weight: var(--font-semibold);
     cursor: pointer;
     background-color: var(--bg-white);
     transition: transform ease-in-out 0.25s, box-shadow 0.4s ease;
     will-change: transform;
     text-align: center;
+    border: 2px solid var(--accent-yellow);
+    color: var(--accent-navy);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
 }
 
 #setButton:hover {
-    background-color: var(#FFFFFF);
+    background-color: var(--accent-yellow);
     transform: translateY(-5px) scale(1.01);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
@@ -295,6 +487,13 @@ input[type=number]::-webkit-outer-spin-button {
     color: var(--bg-white);
     padding: var(--space-2) var(--space-2);
     text-align: center;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+}
+
+.appointmentBox:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(45, 58, 76, 0.3);
 }
 
 #toDo {
@@ -305,16 +504,16 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .time1, .time2 {
-    font-weight: 700px;
+    font-weight: var(--font-semibold);
+    color: var(--accent-yellow);
 }
 
 @media(max-width: 768px){
-
     .sideBox {
         position: static;
         margin-top: var(--space-4);
         transform: none;
-        display: block; /* Make sure it's still shown */
+        display: block;
         align-self: flex-end;
     }
 
@@ -325,6 +524,18 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     #toDo {
-        width: 500px;
+        width: 100%;
+        padding: 0 var(--space-2);
+    }
+
+    .appointmentBox {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    #reset {
+        position: static;
+        margin-bottom: var(--space-2);
+        align-self: center;
     }
 }

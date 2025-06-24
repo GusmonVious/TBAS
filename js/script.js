@@ -3,6 +3,38 @@ const timeSync1 = document.getElementById('timeSync1');
 const timeSync2 = document.getElementById('timeSync2');
 const reset = document.getElementById('reset');
 
+// Hamburger menu functionality
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const sidebarMenu = document.getElementById('sidebarMenu');
+const menuOverlay = document.getElementById('menuOverlay');
+const closeSidebar = document.getElementById('closeSidebar');
+
+// Open sidebar
+hamburgerBtn.addEventListener('click', () => {
+    hamburgerBtn.style.visibility = 'hidden';
+    sidebarMenu.classList.add('active');
+    menuOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+
+// Close sidebar
+function closeSidebarMenu() {
+    sidebarMenu.classList.remove('active');
+    menuOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    hamburgerBtn.style.visibility = 'visible';
+}
+
+closeSidebar.addEventListener('click', closeSidebarMenu);
+menuOverlay.addEventListener('click', closeSidebarMenu);
+
+// Close sidebar on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebarMenu.classList.contains('active')) {
+        closeSidebarMenu();
+    }
+});
+
 const inputs = [
   { inputId: 'tzInput1', listId: 'timeZonesList1', hoursBox: 'hoursBox1', minutesBox: 'minutesBox1', loadingId: 'loadingId1', selectedZone: '' },
   { inputId: 'tzInput2', listId: 'timeZonesList2', hoursBox: 'hoursBox2', minutesBox: 'minutesBox2', loadingId: 'loadingId2', selectedZone: '' }
@@ -192,30 +224,59 @@ reset.addEventListener('click', () => {
 
 })
 
-document.getElementById('setButton').addEventListener('click', () => {
-  try {
+// document.getElementById('setButton').addEventListener('click', () => {
+//   try {
 
-    const entryZone1 = document.getElementById('tzInput1').value;
-    const entryHours1 = parseInt(document.getElementById(inputs[0].hoursBox).value);
-    const entryMinutes1 = parseInt(document.getElementById(inputs[0].minutesBox).value);
+//     const entryZone1 = document.getElementById('tzInput1').value;
+//     const entryHours1 = parseInt(document.getElementById(inputs[0].hoursBox).value);
+//     const entryMinutes1 = parseInt(document.getElementById(inputs[0].minutesBox).value);
 
-    const entryZone2 = document.getElementById('tzInput2').value;
-    const entryHours2 = parseInt(document.getElementById(inputs[1].hoursBox).value);
-    const entryMinutes2 = parseInt(document.getElementById(inputs[1].minutesBox).value);
+//     const entryZone2 = document.getElementById('tzInput2').value;
+//     const entryHours2 = parseInt(document.getElementById(inputs[1].hoursBox).value);
+//     const entryMinutes2 = parseInt(document.getElementById(inputs[1].minutesBox).value);
 
-    const span1 = `${entryZone1} ${entryHours1}:${entryHours2}`;
-    const span2 = `${entryZone2} ${entryHours2}:${entryHours2}`;
+//     const span1 = `${entryZone1} ${entryHours1}:${entryHours2}`;
+//     const span2 = `${entryZone2} ${entryHours2}:${entryHours2}`;
 
-    toDoBox = document.createElement('div');
-    toDoBox.classList.add('appointmentBox');
+//     toDoBox = document.createElement('div');
+//     toDoBox.classList.add('appointmentBox');
 
-    toDoBox.innerHTML = `<p>Appointment set at <span class='time1'>${span1},</span> <span class='time2'>${span2}</span></p>`;
+//     toDoBox.innerHTML = `<p>Appointment set at <span class='time1'>${span1},</span> <span class='time2'>${span2}</span></p>`;
 
-    document.getElementById('toDo').append(toDoBox);
+//     document.getElementById('toDo').append(toDoBox);
     
-  }
-  catch(error){
-    console.error('Failed to set appointment:', error);
-  }
+//   }
+//   catch(error){
+//     console.error('Failed to set appointment:', error);
+//   }
 
-})	
+// })	
+
+let appointmentCount = 0;
+
+document.getElementById('setButton').addEventListener('click', () => {
+    appointmentCount++;
+    const sidebarContent = document.querySelector('.sidebar-content');
+    
+    // Create new appointment item for sidebar
+    const newAppointment = document.createElement('div');
+    newAppointment.className = 'appointment-item';
+    newAppointment.innerHTML = `
+        <div class="appointment-time">
+            <span class="timezone-1">${document.getElementById('tzInput1').value || 'Unknown'}: ${document.getElementById('hoursBox1').value || '00'}:${document.getElementById('minutesBox1').value || '00'}</span>
+            <span class="timezone-2">${document.getElementById('tzInput2').value || 'Unknown'}: ${document.getElementById('hoursBox2').value || '00'}:${document.getElementById('minutesBox2').value || '00'}</span>
+        </div>
+        <div class="appointment-title">New Meeting #${appointmentCount}</div>
+    `;
+    
+    sidebarContent.appendChild(newAppointment);
+    
+    // Animate the new appointment
+    newAppointment.style.opacity = '0';
+    newAppointment.style.transform = 'translateX(-20px)';
+    setTimeout(() => {
+        newAppointment.style.transition = 'all 0.3s ease';
+        newAppointment.style.opacity = '1';
+        newAppointment.style.transform = 'translateX(0)';
+    }, 100);
+});

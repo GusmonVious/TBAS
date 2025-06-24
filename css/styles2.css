@@ -1,0 +1,541 @@
+:root {
+    /* Primary */
+    --bg-white: #dfe8e8;
+    --text-dark: #111827;
+
+    /* Accents */
+    --accent-navy: #2d3a4c;
+    --accent-yellow: #f6e145;
+
+    /* Gradient Colors */
+    --gradient-start: #261C50;
+    --gradient-mid: #2C3E50;
+    --gradient-end: #0E4E60;
+
+    /* Text Gradient */
+    --text-gradient-start: #FFFFFF;
+    --text-gradient-end: #E0E0E0;
+
+    /* Extra Accents */
+    --accent-grey: #aebcc0;
+    --accent-dark-grey: #626c74;
+
+    /* Spacing system (8px increments) */
+    --space-1: 0.5rem;   /* 8px */
+    --space-2: 1rem;     /* 16px */
+    --space-3: 1.5rem;   /* 24px */
+    --space-4: 2rem;     /* 32px */
+    --space-5: 2.5rem;   /* 40px */
+    --space-6: 3rem;     /* 48px */
+    --space-8: 4rem;     /* 64px */
+    --space-10: 5rem;    /* 80px */
+    --space-12: 6rem;    /* 96px */
+    --space-16: 8rem;    /* 128px */
+    --space-18: 9rem;    /* 144px */
+    --space-20: 10rem;   /* 160px */
+    --space-24: 12rem;   /* 192px */
+
+    /* Typography */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --font-size-xs: 0.75rem;   /* 12px */
+    --font-size-sm: 0.875rem;  /* 14px */
+    --font-size-base: 1rem;    /* 16px */
+    --font-size-lg: 1.125rem;  /* 18px */
+    --font-size-xl: 1.25rem;   /* 20px */
+    --font-size-2xl: 1.5rem;   /* 24px */
+    --font-size-3xl: 1.875rem; /* 30px */
+    --font-size-4xl: 2.25rem;  /* 36px */
+    --font-size-5xl: 3rem;     /* 48px */
+    --font-size-6xl: 3.75rem;  /* 60px */
+
+    /* Font weights */
+    --font-light: 300;
+    --font-normal: 400;
+    --font-semibold: 600;
+
+    /* Border radius */
+    --radius-sm: 0.25rem;  /* 4px */
+    --radius-md: 0.5rem;   /* 8px */
+    --radius-lg: 1rem;     /* 16px */
+    --radius-full: 9999px;
+
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Base Styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+/* Body and Background */
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-white);
+    line-height: 1.5;
+    color: var(--text-dark);
+    overflow-x: hidden;
+}
+
+.gradient-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+    background-size: 400% 400%;
+    animation: gradientFlow 15s ease infinite;
+    z-index: -1;
+    opacity: 0.9;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Hamburger Menu Styles */
+.hamburger-btn {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    z-index: 1000;
+    background: var(--bg-white);
+    border: none;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: var(--font-size-lg);
+    color: var(--accent-navy);
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+}
+
+.hamburger-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+}
+
+.menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sidebar-menu {
+    position: fixed;
+    top: 0;
+    left: -350px;
+    width: 350px;
+    height: 100%;
+    background: var(--bg-white);
+    z-index: 999;
+    transition: left var(--transition-normal);
+    box-shadow: var(--shadow-lg);
+    overflow-y: auto;
+}
+
+.sidebar-menu.active {
+    left: 0;
+}
+
+.sidebar-header {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--accent-grey);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, var(--accent-navy), var(--accent-dark-grey));
+    color: white;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-semibold);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: var(--font-size-2xl);
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition-fast);
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-content {
+    padding: var(--space-3);
+}
+
+.appointment-item {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    margin-bottom: var(--space-2);
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--accent-yellow);
+    transition: all var(--transition-fast);
+}
+
+.appointment-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+}
+
+.appointment-time {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: var(--space-1);
+}
+
+.timezone-1, .timezone-2 {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    color: var(--accent-navy);
+}
+
+.appointment-date {
+    font-size: var(--font-size-xs);
+    color: var(--accent-dark-grey);
+    margin-bottom: 0.25rem;
+}
+
+.appointment-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-semibold);
+    color: var(--text-dark);
+}
+
+/* Timezone Converter */
+.countryContainer {
+    width: 100%;
+    height: 70vh;
+    padding: var(--space-24) var(--space-8);
+    text-align: center;
+    display: flex;
+    gap: var(--space-8);
+    justify-content: center;
+    align-content: center;
+    margin-bottom: var(--space-8);
+}
+
+@media (max-width: 768px) {
+    .countryContainer {
+        margin-top: var(--space-10);
+        gap: var(--space-3);
+        flex-wrap: wrap;
+        margin-bottom: 0px;
+        padding: var(--space-12) var(--space-4);
+    }
+
+    .sideBox {
+        margin-bottom: var(--space-12);
+    }
+
+    .hamburger-btn {
+        top: 1rem;
+        left: 1rem;
+        padding: 0.75rem;
+    }
+
+    .sidebar-menu {
+        width: 300px;
+        left: -300px;
+    }
+}
+
+/* Specific Time Zone */
+.container {
+    padding: var(--space-12) var(--space-5);
+    box-shadow: var(--shadow-lg);
+    background-color: var(--bg-white);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    align-content: center;
+    justify-content: center;
+    background: linear-gradient(to right, var(--text-gradient-start), var(--text-gradient-end));
+    border-radius: var(--radius-md);
+    box-shadow: 0px 0px 5px 1px var(--bg-white);
+    transition: all var(--transition-normal);
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 20px 3px rgba(223, 232, 232, 0.3);
+}
+
+input {
+    text-align: center;
+    margin: 0px 45px;
+    border: 1px solid var(--accent-grey);
+    border-radius: var(--radius-sm);
+    padding: var(--space-1);
+    font-family: var(--font-family);
+    transition: all var(--transition-fast);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--accent-yellow);
+    box-shadow: 0 0 0 2px rgba(246, 225, 69, 0.2);
+}
+
+input[type=number] {
+    width: var(--space-4);
+    box-sizing: content-box;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-dark);
+    font-weight: var(--font-semibold);
+}
+
+#tzInput1, #tzInput2 {
+    width: var(--space-18);
+    height: var(--space-4);
+    margin: 0px 45px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-dark);
+    font-weight: var(--font-normal);
+}
+
+/* Webkit (Chrome, Safari, newer versions of Opera) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0; 
+}
+
+.timeDisplayBox {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-semibold);
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: var(--space-2);
+    color: var(--text-dark);
+}
+
+.timeDisplayBox span {
+    color: var(--accent-navy);
+    font-size: var(--font-size-2xl);
+}
+
+/* Status Indicators */
+#loadingId1, #loadingId2 {
+    margin-top: 5px;
+    align-self: flex-end;
+    margin: 0px;
+    padding: 0px;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--accent-yellow);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fa-check {
+    position: absolute;
+    color: var(--accent-navy);
+    font-size: var(--font-size-lg);
+}
+
+.wrapper {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.sideBox {
+    position: absolute;
+    top: 53%;
+    transform: translateY(-50%);
+    right: -160px;
+    width: 150px;
+    height: 60px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+#timeSync1, #timeSync2 {
+    padding: 6px var(--space-2);
+    border-radius: 17px;
+    border: 0px;
+    color: var(--accent-navy);
+    margin: 7px;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-weight: var(--font-semibold);
+    transition: all var(--transition-normal);
+}
+
+#timeSync1:hover, #timeSync2:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(246, 225, 69, 0.4);
+}
+
+#timeSync1 {
+    background: linear-gradient(90deg, var(--bg-white), var(--bg-white), var(--accent-yellow));
+    animation: gradientFlow 15s ease infinite;
+    box-shadow: 0px 0px 5px var(--accent-yellow);
+}
+
+#timeSync2 {
+    background: linear-gradient(270deg, var(--bg-white), var(--bg-white), var(--accent-yellow));
+    animation: gradientFlow 15s ease infinite;
+    box-shadow: 0px 0px 5px var(--accent-yellow);
+}
+
+#reset {
+    position: absolute;
+    top: 3%;
+    right: -160px; 
+    width: 80px;
+    height: 30px;
+    border-radius: 20px;
+    z-index: 11;
+    color: var(--accent-navy);
+    border: 0px;
+    cursor: pointer;
+    background-color: var(--bg-white);
+}
+
+#reset:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-md);
+}
+
+/* Appointment Setting Container */
+#toDoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#setButton {
+    margin-bottom: var(--space-3);
+    border-radius: 30px;
+    padding: var(--space-2) var(--space-4);
+    font-weight: var(--font-semibold);
+    cursor: pointer;
+    background-color: var(--bg-white);
+    transition: transform ease-in-out 0.25s, box-shadow 0.4s ease;
+    will-change: transform;
+    text-align: center;
+    border: 2px solid var(--accent-yellow);
+    color: var(--accent-navy);
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+}
+
+#setButton:hover {
+    background-color: var(--accent-yellow);
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.appointmentBox {
+    background-color: var(--accent-navy);
+    box-sizing: border-box;
+    width: 550px;
+    border-radius: 10px;
+    color: var(--bg-white);
+    padding: var(--space-2) var(--space-2);
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+}
+
+.appointmentBox:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(45, 58, 76, 0.3);
+}
+
+#toDo {
+    font-size: var(--font-size-base);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.time1, .time2 {
+    font-weight: var(--font-semibold);
+    color: var(--accent-yellow);
+}
+
+@media(max-width: 768px){
+    .sideBox {
+        position: static;
+        margin-top: var(--space-4);
+        transform: none;
+        display: block;
+        align-self: flex-end;
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #toDo {
+        width: 100%;
+        padding: 0 var(--space-2);
+    }
+
+    .appointmentBox {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    #reset {
+        position: static;
+        margin-bottom: var(--space-2);
+        align-self: center;
+    }
+}
